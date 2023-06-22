@@ -33,6 +33,7 @@ export default class Pdf extends Component {
             PropTypes.shape({
                 uri: PropTypes.string,
                 cache: PropTypes.bool,
+                cacheFileName: PropTypes.string,
                 expiration: PropTypes.number,
             }),
             // Opaque type returned by require('./test.pdf')
@@ -157,8 +158,8 @@ export default class Pdf extends Component {
 
         // first set to initial state
         this.setState({isDownloaded: false, path: '', progress: 0});
-
-        const cacheFile = RNFetchBlob.fs.dirs.CacheDir + '/' + SHA1(uri) + '.pdf';
+        const filename = source.cacheFileName || SHA1(uri) + '.pdf';
+        const cacheFile = RNFetchBlob.fs.dirs.CacheDir + '/' + filename;
 
         if (source.cache) {
             RNFetchBlob.fs
@@ -190,7 +191,8 @@ export default class Pdf extends Component {
                 const isAsset = !!(uri && uri.match(/^bundle-assets:\/\//));
                 const isBase64 = !!(uri && uri.match(/^data:application\/pdf;base64/));
 
-                const cacheFile = RNFetchBlob.fs.dirs.CacheDir + '/' + SHA1(uri) + '.pdf';
+                const filename = source.cacheFileName || SHA1(uri) + ".pdf";
+                const cacheFile = RNFetchBlob.fs.dirs.CacheDir + '/'+ filename;
 
                 // delete old cache file
                 this._unlinkFile(cacheFile);
