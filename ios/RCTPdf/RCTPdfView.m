@@ -237,7 +237,7 @@ const float MIN_SCALE = 1.0f;
             }
         }
         
-        
+        _pdfView.backgroundColor = [UIColor clearColor];
         [_pdfView layoutDocumentView];
         [self setNeedsDisplay];
     }
